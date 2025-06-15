@@ -182,10 +182,6 @@ export PYTHONIOENCODING=utf-8
 
 للحصول على الدعم، انضم إلى قناة التليجرام: [@PhoenixCrypto_PC](https://t.me/PhoenixCrypto_PC)
 
-## 📦 المستودع
-
-مستودع GitHub: [https://github.com/phoenixcrypto/UNICH-REF](https://github.com/phoenixcrypto/UNICH-REF)
-
 ## ⚠️ ملاحظات مهمة
 
 - السكربت تعليمي ويُستخدم على مسؤوليتك الشخصية
