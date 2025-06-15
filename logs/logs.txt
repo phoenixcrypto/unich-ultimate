@@ -1,0 +1,165 @@
+2025-06-15 11:18:59 - INFO - Processing account: e.l.t.ms.ahzeyad4@gmail.com
+2025-06-15 11:19:02 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:23:45 - INFO - Processing account: e.l.t.ms.ahzeyad4@gmail.com
+2025-06-15 11:23:48 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:27:23 - INFO - Processing account: e.l.t.ms.ahzeyad4@gmail.com
+2025-06-15 11:27:27 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:28:30 - ERROR - Error processing account e.l.t.ms.ahzeyad4@gmail.com: Message: 
+
+2025-06-15 11:30:09 - INFO - Processing account: e.l.t.ms.ahzeyad4@gmail.com
+2025-06-15 11:30:13 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:32:06 - INFO - Processing account: eltm.s.ahzeyad4@gmail.com
+2025-06-15 11:32:10 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:38:39 - INFO - Processing account: e.l.t.ms.ahzeyad4@gmail.com
+2025-06-15 11:38:43 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:38:49 - ERROR - Error processing account e.l.t.ms.ahzeyad4@gmail.com: random_delay() takes 0 positional arguments but 2 were given
+2025-06-15 11:38:49 - ERROR - Error in main loop processing e.l.t.ms.ahzeyad4@gmail.com: random_delay() takes 0 positional arguments but 2 were given
+2025-06-15 11:39:39 - INFO - Processing account: e.l.t.ms.ahzeyad4@gmail.com
+2025-06-15 11:39:43 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:39:47 - ERROR - Error processing account e.l.t.ms.ahzeyad4@gmail.com: name 'random_delay' is not defined
+2025-06-15 11:39:47 - ERROR - Error in main loop processing e.l.t.ms.ahzeyad4@gmail.com: name 'random_delay' is not defined
+2025-06-15 11:47:28 - INFO - Processing account: e.l.t.ms.ahzeyad4@gmail.com
+2025-06-15 11:47:32 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:50:17 - INFO - Processing account: eltm.s.ahzeyad4@gmail.com
+2025-06-15 11:50:20 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:51:58 - INFO - Processing account: eltm.s.ahzeyad4@gmail.com
+2025-06-15 11:52:01 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:53:26 - INFO - Processing account: eltm.s.ahzeyad4@gmail.com
+2025-06-15 11:53:30 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:54:30 - INFO - Processing account: e.ltm.s.ahzeyad4@gmail.com
+2025-06-15 11:54:33 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:56:43 - INFO - Processing account: el.tm.s.ahzeyad4@gmail.com
+2025-06-15 11:56:46 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:57:02 - INFO - Processing account: el.tm.s.ahzeyad4@gmail.com
+2025-06-15 11:57:06 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:58:00 - INFO - Processing account: e.l.tm.s.ahzeyad4@gmail.com
+2025-06-15 11:58:03 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 11:58:41 - INFO - Processing account: elt.m.s.ahzeyad4@gmail.com
+2025-06-15 11:58:45 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 12:00:53 - INFO - Processing account: elt.m.s.ahzeyad4@gmail.com
+2025-06-15 12:00:56 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 12:00:58 - ERROR - Error processing account elt.m.s.ahzeyad4@gmail.com: Message: invalid argument: cannot parse capability: goog:chromeOptions
+from invalid argument: unrecognized chrome option: prefs
+Stacktrace:
+	GetHandleVerifier [0x0xcd3783+63299]
+	GetHandleVerifier [0x0xcd37c4+63364]
+	(No symbol) [0x0xb01113]
+	(No symbol) [0x0xb287dc]
+	(No symbol) [0x0xb2a0c0]
+	(No symbol) [0x0xb2524d]
+	(No symbol) [0x0xb78c62]
+	(No symbol) [0x0xb78746]
+	(No symbol) [0x0xb79eaf]
+	(No symbol) [0x0xb79c5a]
+	(No symbol) [0x0xb6e376]
+	(No symbol) [0x0xb3d6e0]
+	(No symbol) [0x0xb3e544]
+	GetHandleVerifier [0x0xf2e073+2531379]
+	GetHandleVerifier [0x0xf29372+2511666]
+	GetHandleVerifier [0x0xcf9efa+220858]
+	GetHandleVerifier [0x0xcea548+156936]
+	GetHandleVerifier [0x0xcf0c7d+183357]
+	GetHandleVerifier [0x0xcdb6e8+95912]
+	GetHandleVerifier [0x0xcdb890+96336]
+	GetHandleVerifier [0x0xcc666a+9770]
+	BaseThreadInitThunk [0x0x76e15d49+25]
+	RtlInitializeExceptionChain [0x0x77e7d09b+107]
+	RtlGetAppContainerNamedObjectPath [0x0x77e7d021+561]
+
+2025-06-15 12:00:58 - INFO - Processing account: elt.m.s.ahzeyad4@gmail.com
+2025-06-15 12:01:02 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 12:01:09 - INFO - Processing account: elt.m.s.ahzeyad4@gmail.com
+2025-06-15 12:01:14 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 12:01:15 - ERROR - Error processing account elt.m.s.ahzeyad4@gmail.com: Message: invalid argument: cannot parse capability: goog:chromeOptions
+from invalid argument: unrecognized chrome option: prefs
+Stacktrace:
+	GetHandleVerifier [0x0xf63783+63299]
+	GetHandleVerifier [0x0xf637c4+63364]
+	(No symbol) [0x0xd91113]
+	(No symbol) [0x0xdb87dc]
+	(No symbol) [0x0xdba0c0]
+	(No symbol) [0x0xdb524d]
+	(No symbol) [0x0xe08c62]
+	(No symbol) [0x0xe08746]
+	(No symbol) [0x0xe09eaf]
+	(No symbol) [0x0xe09c5a]
+	(No symbol) [0x0xdfe376]
+	(No symbol) [0x0xdcd6e0]
+	(No symbol) [0x0xdce544]
+	GetHandleVerifier [0x0x11be073+2531379]
+	GetHandleVerifier [0x0x11b9372+2511666]
+	GetHandleVerifier [0x0xf89efa+220858]
+	GetHandleVerifier [0x0xf7a548+156936]
+	GetHandleVerifier [0x0xf80c7d+183357]
+	GetHandleVerifier [0x0xf6b6e8+95912]
+	GetHandleVerifier [0x0xf6b890+96336]
+	GetHandleVerifier [0x0xf5666a+9770]
+	BaseThreadInitThunk [0x0x76e15d49+25]
+	RtlInitializeExceptionChain [0x0x77e7d09b+107]
+	RtlGetAppContainerNamedObjectPath [0x0x77e7d021+561]
+
+2025-06-15 12:01:16 - INFO - Processing account: elt.m.s.ahzeyad4@gmail.com
+2025-06-15 12:01:19 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 12:01:21 - ERROR - Error processing account elt.m.s.ahzeyad4@gmail.com: Message: invalid argument: cannot parse capability: goog:chromeOptions
+from invalid argument: unrecognized chrome option: prefs
+Stacktrace:
+	GetHandleVerifier [0x0x883783+63299]
+	GetHandleVerifier [0x0x8837c4+63364]
+	(No symbol) [0x0x6b1113]
+	(No symbol) [0x0x6d87dc]
+	(No symbol) [0x0x6da0c0]
+	(No symbol) [0x0x6d524d]
+	(No symbol) [0x0x728c62]
+	(No symbol) [0x0x728746]
+	(No symbol) [0x0x729eaf]
+	(No symbol) [0x0x729c5a]
+	(No symbol) [0x0x71e376]
+	(No symbol) [0x0x6ed6e0]
+	(No symbol) [0x0x6ee544]
+	GetHandleVerifier [0x0xade073+2531379]
+	GetHandleVerifier [0x0xad9372+2511666]
+	GetHandleVerifier [0x0x8a9efa+220858]
+	GetHandleVerifier [0x0x89a548+156936]
+	GetHandleVerifier [0x0x8a0c7d+183357]
+	GetHandleVerifier [0x0x88b6e8+95912]
+	GetHandleVerifier [0x0x88b890+96336]
+	GetHandleVerifier [0x0x87666a+9770]
+	BaseThreadInitThunk [0x0x76e15d49+25]
+	RtlInitializeExceptionChain [0x0x77e7d09b+107]
+	RtlGetAppContainerNamedObjectPath [0x0x77e7d021+561]
+
+2025-06-15 12:01:21 - INFO - Processing account: elt.m.s.ahzeyad4@gmail.com
+2025-06-15 12:01:25 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 12:01:26 - ERROR - Error processing account elt.m.s.ahzeyad4@gmail.com: Message: invalid argument: cannot parse capability: goog:chromeOptions
+from invalid argument: unrecognized chrome option: prefs
+Stacktrace:
+	GetHandleVerifier [0x0xae3783+63299]
+	GetHandleVerifier [0x0xae37c4+63364]
+	(No symbol) [0x0x911113]
+	(No symbol) [0x0x9387dc]
+	(No symbol) [0x0x93a0c0]
+	(No symbol) [0x0x93524d]
+	(No symbol) [0x0x988c62]
+	(No symbol) [0x0x988746]
+	(No symbol) [0x0x989eaf]
+	(No symbol) [0x0x989c5a]
+	(No symbol) [0x0x97e376]
+	(No symbol) [0x0x94d6e0]
+	(No symbol) [0x0x94e544]
+	GetHandleVerifier [0x0xd3e073+2531379]
+	GetHandleVerifier [0x0xd39372+2511666]
+	GetHandleVerifier [0x0xb09efa+220858]
+	GetHandleVerifier [0x0xafa548+156936]
+	GetHandleVerifier [0x0xb00c7d+183357]
+	GetHandleVerifier [0x0xaeb6e8+95912]
+	GetHandleVerifier [0x0xaeb890+96336]
+	GetHandleVerifier [0x0xad666a+9770]
+	BaseThreadInitThunk [0x0x76e15d49+25]
+	RtlInitializeExceptionChain [0x0x77e7d09b+107]
+	RtlGetAppContainerNamedObjectPath [0x0x77e7d021+561]
+
+2025-06-15 12:01:27 - INFO - Processing account: elt.m.s.ahzeyad4@gmail.com
+2025-06-15 12:03:08 - INFO - Processing account: elt.m.s.ahzeyad4@gmail.com
+2025-06-15 12:03:12 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe
+2025-06-15 12:03:46 - INFO - Processing account: elt.m.s.ahzeyad4@gmail.com
+2025-06-15 12:03:51 - INFO - patching driver executable C:\Users\zeyad\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe

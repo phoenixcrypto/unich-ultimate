@@ -1,0 +1,11 @@
+colorama>=0.4.6
+selenium>=4.15.2
+webdriver-manager>=4.0.1
+python-dotenv>=1.0.0
+cryptography>=41.0.5
+schedule==1.2.1
+beautifulsoup4==4.12.2
+undetected-chromedriver==3.5.4
+fake-useragent==1.4.0
+opencv-python==4.9.0.80
+numpy==1.26.4
