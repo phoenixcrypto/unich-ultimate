@@ -1,3 +1,19 @@
+import os
+from pathlib import Path
+from modules.system_utils import (
+    get_chrome_path,
+    get_chromium_path,
+    get_user_agent,
+    get_script_directory,
+    setup_environment
+)
+
+# Setup environment
+setup_environment()
+
+# Get script directory
+SCRIPT_DIR = get_script_directory()
+
 # Script Configuration
 CONFIG = {
     # Referral
@@ -6,10 +22,10 @@ CONFIG = {
 
     # File paths
     'FILES': {
-        'ACCOUNTS': 'data/accounts.txt',
-        'DONE': 'data/done.txt',
-        'ERRORS': 'data/errors.txt',
-        'LOGS': 'logs/logs.txt'
+        'ACCOUNTS': os.path.join(SCRIPT_DIR, 'data', 'accounts.txt'),
+        'DONE': os.path.join(SCRIPT_DIR, 'data', 'done.txt'),
+        'ERRORS': os.path.join(SCRIPT_DIR, 'data', 'errors.txt'),
+        'LOGS': os.path.join(SCRIPT_DIR, 'logs', 'logs.txt')
     },
 
     # Email settings
@@ -33,12 +49,14 @@ CONFIG = {
         'HEADLESS': False,
         'WINDOW_SIZE': (1920, 1080),
         'TIMEOUT': 20,
-        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'USER_AGENT': get_user_agent(),
         'DISABLE_IMAGES': True,
         'DISABLE_GPU': True,
         'DISABLE_EXTENSIONS': True,
         'NO_SANDBOX': True,
-        'DISABLE_DEV_SHM': True
+        'DISABLE_DEV_SHM': True,
+        'CHROME_PATH': get_chrome_path(),
+        'CHROMIUM_PATH': get_chromium_path()
     },
 
     # Delays
@@ -116,7 +134,7 @@ CONFIG = {
     'BACKUP': {
         'INTERVAL': 3600,
         'MAX_BACKUPS': 5,
-        'BACKUP_DIR': 'backups'
+        'BACKUP_DIR': os.path.join(SCRIPT_DIR, 'backups')
     },
 
     # Remote
