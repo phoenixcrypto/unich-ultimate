@@ -1,0 +1,17 @@
+include README.md
+include LICENSE
+include requirements.txt
+include setup.py
+include MANIFEST.in
+include .gitignore
+
+recursive-include modules *.py
+recursive-include data *.txt
+recursive-include logs *.txt
+
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude .Python
+global-exclude *.so 

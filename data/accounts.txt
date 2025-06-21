@@ -1,0 +1,3 @@
+# Gmail accounts for automation
+# Format: email:password
+# Example: test@gmail.com:mypassword123
