@@ -13,9 +13,12 @@ def print_menu():
     print(Fore.WHITE + Style.BRIGHT + "\n" + "🔥 Features:")
     print(Fore.GREEN + Style.BRIGHT + "  • Generate unlimited Gmail dot trick emails")
     print(Fore.GREEN + Style.BRIGHT + "  • Fully automated referral registration for Unich")
+    print(Fore.GREEN + Style.BRIGHT + "  • Direct API interaction (Fast & Automated)")
     print(Fore.CYAN + Style.BRIGHT + "="*50)
     print(Fore.YELLOW + Style.BRIGHT + "1. ✉️  Generate Gmail Dot Trick Emails")
-    print(Fore.YELLOW + Style.BRIGHT + "2. 🚀 Run Referral Automation")
+    print(Fore.YELLOW + Style.BRIGHT + "2. 🚀 Run Referral Automation (Browser)")
+    print(Fore.YELLOW + Style.BRIGHT + "3. 🔌 Run API Direct Registration (Fast + 2Captcha)")
+    print(Fore.YELLOW + Style.BRIGHT + "4. ⛏️  Start Mining for All Accounts (API)")
     print(Fore.RED + Style.BRIGHT + "0. ❌ Exit")
     print(Fore.CYAN + Style.BRIGHT + "="*50)
     print()
@@ -29,6 +32,12 @@ def run_automation():
     # استيراد دالة main من ملف الأتمتة
     automation = importlib.import_module("modules.automation")
     automation.main()
+
+def run_api_automation():
+    print(Fore.GREEN + Style.BRIGHT + "\n🔌 Starting API direct registration...\n")
+    # استيراد دالة main_api من وحدة API
+    from modules.api_interaction import main_api
+    main_api()
 
 def main():
     while True:
@@ -47,6 +56,11 @@ def main():
             save_gmail_variants_to_accounts(base, password)
         elif choice == "2":
             run_automation()
+        elif choice == "3":
+            run_api_automation()
+        elif choice == "4":
+            from modules.mining_api import start_mining_all_accounts
+            start_mining_all_accounts()
         elif choice == "0":
             print(Fore.MAGENTA + Style.BRIGHT + "\n👋 Goodbye! Have a productive day!\n")
             sys.exit(0)

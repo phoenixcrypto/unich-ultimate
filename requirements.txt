@@ -14,3 +14,6 @@ requests>=2.31.0
 python-dateutil>=2.8.2
 tqdm>=4.66.1
 setuptools>=68.0.0
+pycryptodome~=3.21.0
+curl_cffi~=0.10.0
+ddddocr @ git+https://github.com/sml2h3/ddddocr.git@main#egg=ddddocr

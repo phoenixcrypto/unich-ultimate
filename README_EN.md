@@ -1,216 +1,154 @@
-# 🚀 UNICH Project Automation
+# 🤖 UNICH Automation Project (PhoenixCrypto_PC)
 
-A comprehensive tool for generating Gmail dot trick emails and automating referral registrations on the Unich platform, with full automation support, CAPTCHA solving, and account management.
+[![Phoenix Crypto Channel](https://img.shields.io/badge/Telegram%20Channel-PhoenixCrypto__PC-blue?logo=telegram)](https://t.me/PhoenixCrypto_PC)
+[![Phoenix Chat Group](https://img.shields.io/badge/Telegram%20Group-Phoenix__Channeli-blueviolet?logo=telegram)](https://t.me/Phoenix_Channeli)
 
-## ⭐️ Features
+---
 
-- Generate unlimited Gmail dot trick emails
-- Fully automated referral registration for Unich
-- Manual CAPTCHA solving support
-- OTP reading from Gmail
-- Automatic account management (successful/failed tracking)
-- Detailed logs for all operations and errors
-- Colorful interactive interface
-- Full support for Windows and Linux systems
-- Anti-detection browser settings
+## 🚀 Introduction
 
-## 🛠️ Requirements
+A complete automation project for generating Gmail dot trick emails, fully automated Unich airdrop registration, automatic mining activation, with full support for captcha solving and OTP reading from email—all in a fast, user-friendly interface.
 
-### Windows System
-- Python 3.8 or higher
-- Google Chrome or Chromium browser
-- Git (optional)
+---
 
-### Linux System (Ubuntu/Debian)
-- Python 3.8 or higher
-- Google Chrome or Chromium browser
-- Git (optional)
+## ✨ Main Features
 
-## ⚙️ Installation and Setup
+- ♾️ **Generate unlimited Gmail dot trick emails**
+- 🤖 **Fully automated Unich registration (Selenium or API)**
+- ⛏️ **Automatic mining activation for all accounts**
+- 🔐 **Automatic OTP reading from Gmail**
+- 🧩 **Automatic captcha solving (2Captcha)**
+- 📊 **Organized logs and result files**
+- 🛠️ **Customizable and easy to modify**
 
-### Quick Installation
+---
 
-#### Windows
-```bash
-# Run the installer
+## 🗂️ Table of Contents
+
+- [⚡️ Quick Install & Run](#️-quick-install--run)
+- [⚙️ config.py Setup](#️-configpy-setup)
+- [Features Explained](#features-explained)
+- [File Structure](#file-structure)
+- [FAQ](#faq)
+- [Support & Contact](#support--contact)
+- [License](#license)
+
+---
+
+## ⚡️ Quick Install & Run
+
+### 🪟 Windows
+```bat
 install.bat
-
-# Or run the automation
 run.bat
 ```
 
-#### Linux
+### 🐧 Linux/Mac
 ```bash
-# Make scripts executable
 chmod +x install.sh run.sh
-
-# Run the installer
 ./install.sh
-
-# Or run the automation
 ./run.sh
 ```
 
-### Manual Installation
+---
 
-#### Windows
+## ⚙️ config.py Setup
 
-1. **Clone the project:**
-```bash
-git clone https://github.com/phoenixcrypto/UNICH-REF.git
-cd UNICH-REF
+Before running, configure `config.py` for correct operation. Key settings:
+
+```python
+CONFIG = {
+    # Email settings for automatic OTP reading
+    'EMAIL': {
+        'IMAP_EMAIL': 'your_email@gmail.com',
+        'IMAP_PASSWORD': 'your_app_password',  # Use Google App Password
+        'IMAP_HOST': 'imap.gmail.com',
+        'IMAP_PORT': 993
+    },
+    # 2Captcha settings
+    'CAPTCHA': {
+        'API_KEY': 'your_2captcha_api_key_here',  # Put your key here
+        'TIMEOUT': 120,
+        'MAX_RETRIES': 3
+    },
+    # Your referral code
+    'REFERRAL_CODE': 'ABC123'
+    # ... other settings as needed
+}
 ```
 
-2. **Create and activate virtual environment:**
-```bash
-python -m venv venv
-.\venv\Scripts\activate
-```
+- **Note:**  
+  - To get a Google App Password, enable 2FA and create an app-specific password.
+  - To get a 2Captcha key, register at [2Captcha](https://2captcha.com/) and copy your API Key.
 
-3. **Install required libraries:**
-```bash
-pip install -r requirements.txt
-```
+---
 
-4. **Install Chrome/Chromium browser:**
-- Download Chrome from: https://www.google.com/chrome/
-- Or download Chromium from: https://www.chromium.org/getting-involved/download-chromium/
+## 📝 Features Explained
 
-#### Linux (Ubuntu/Debian)
+### 1. Gmail dot trick email generation
+- Enter username and password.
+- Generates thousands of unique emails (all go to the same inbox).
+- Saved in `data/accounts.txt`.
 
-1. **Install basic requirements:**
-```bash
-sudo apt update
-sudo apt upgrade
-sudo apt install python3 python3-pip python3-venv wget unzip
-```
+### 2. Automated registration (Selenium)
+- Opens Chrome browser automatically.
+- Registers each email in Unich with manual captcha solving.
+- Reads OTP from Gmail automatically.
 
-2. **Clone the project:**
-```bash
-git clone https://github.com/phoenixcrypto/UNICH-REF.git
-cd UNICH-REF
-```
+### 3. Fast registration (API + 2Captcha)
+- Registers accounts directly via API.
+- Solves captcha automatically (2Captcha).
+- Reads OTP from Gmail automatically.
+- Much faster than browser mode.
 
-3. **Create and activate virtual environment:**
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
+### 4. Mining activation for all accounts
+- Reads accounts from `data/done.txt`.
+- Activates mining for each account automatically.
+- Logs results in `logs/mining_api.log`.
 
-4. **Install required libraries:**
-```bash
-pip install -r requirements.txt
-```
+---
 
-5. **Install Chrome/Chromium browser:**
-```bash
-# To install Chrome
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome-stable_current_amd64.deb
-sudo apt --fix-broken install
+## 📁 File Structure
 
-# Or to install Chromium
-sudo apt install chromium-browser
-```
+| File/Folder                  | Description                                  |
+|------------------------------|----------------------------------------------|
+| main.py                      | Main menu and feature launcher               |
+| modules/automation.py        | Selenium-based registration logic            |
+| modules/api_interaction.py   | Fast API-based registration logic            |
+| modules/mining_api.py        | Automatic mining activation                  |
+| modules/gmail_dot_generator.py | Gmail dot trick email generator           |
+| config.py                    | Project settings (email, captcha, etc.)      |
+| data/accounts.txt            | Emails and passwords for registration        |
+| data/done.txt                | Successfully registered accounts             |
+| logs/mining_api.log          | Mining operations log                        |
+| requirements.txt             | Required Python packages                     |
 
-## 📱 Usage
+---
 
-1. **Activate virtual environment:**
-```bash
-# On Windows
-.\venv\Scripts\activate
+## ❓ FAQ
 
-# On Linux
-source venv/bin/activate
-```
+- **OTP not received?**
+  - Check Gmail settings in config.py.
+  - Try another email or check spam/junk folder.
+- **Captcha not solved automatically?**
+  - Make sure your 2Captcha key is set in config.py.
+- **Browser not opening?**
+  - Ensure ChromeDriver matches your Chrome version.
+- **Other errors?**
+  - See TROUBLESHOOTING.md or contact us.
 
-2. **Run the script:**
-```bash
-python main.py
-```
+---
 
-3. **Choose from the menu:**
-- Option 1: Generate Gmail dot trick emails
-- Option 2: Run referral automation
-- Option 0: Exit
+## 📞 Support & Contact
 
-## ⚙️ Configuration
+- Updates Channel: [PhoenixCrypto_PC](https://t.me/PhoenixCrypto_PC)
+- Discussion Group: [Phoenix_Channeli](https://t.me/Phoenix_Channeli)
+- YouTube: [@PhoenixCrypto_PC](https://www.youtube.com/@PhoenixCrypto_PC)
 
-You can modify the `config.py` file to customize:
-- Referral link and code
-- Email settings
-- Browser settings
-- Delays and timing
-- Security settings
-- Registration preferences
+---
 
-## 📁 Project Structure
+## ⚖️ License & Disclaimer
 
-```
-UNICH-REF/
-├── data/
-│   ├── accounts.txt         # Accounts to be processed
-│   ├── done.txt            # Successful accounts
-│   └── errors.txt          # Failed accounts
-├── logs/
-│   └── logs.txt            # Operation logs
-├── modules/
-│   ├── automation.py       # Automation logic
-│   ├── gmail_dot_generator.py # Email generation
-│   ├── system_utils.py     # System utilities
-│   └── utils.py            # Helper utilities
-├── drivers/                # Browser files
-├── backups/                # Backups
-├── config.py              # Configuration file
-├── main.py                # Main file
-└── requirements.txt       # Required libraries
-```
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-1. **Chrome/Chromium not found:**
-- Ensure browser is installed
-- Check path in config.py
-- Try using Chromium instead of Chrome
-
-2. **ModuleNotFoundError:**
-- Ensure virtual environment is activated
-- Run `pip install -r requirements.txt` again
-
-3. **Permission issues (Linux):**
-```bash
-chmod -R 755 .
-```
-
-4. **UnicodeEncodeError:**
-```bash
-# On Windows
-set PYTHONIOENCODING=utf-8
-
-# On Linux
-export PYTHONIOENCODING=utf-8
-```
-
-## 🤝 Contributing
-
-1. Fork the project
-2. Create a new branch for your feature
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 📞 Support
-
-For support, join the Telegram channel: [@PhoenixCrypto_PC](https://t.me/PhoenixCrypto_PC)
-
-## ⚠️ Important Notes
-
-- This script is educational and used at your own responsibility
-- Do not share your data with any untrusted parties
-- Follow the Telegram channel for latest updates and tutorials 
+- This project is open source for educational and experimental use only.
+- Use at your own risk.
+- All rights reserved © PhoenixCrypto_PC 

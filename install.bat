@@ -1,35 +1,38 @@
 @echo off
-echo ========================================
-echo UNICH-REF Automation Setup
-echo ========================================
-echo.
+REM === تثبيت كل متطلبات مشروع UNICH-REF تلقائياً ===
 
-REM Check if Python is installed
-python --version >nul 2>&1
-if errorlevel 1 (
-    echo ERROR: Python is not installed or not in PATH
-    echo Please install Python 3.8 or higher from https://python.org
+REM 1. التأكد من وجود بايثون
+where python >nul 2>nul
+if %errorlevel% neq 0 (
+    echo [!] Python غير مثبت. يرجى تثبيته من https://www.python.org/downloads/
     pause
-    exit /b 1
+    exit /b
 )
 
-echo Python found. Creating virtual environment...
+REM 2. إنشاء البيئة الافتراضية
+echo [*] إنشاء بيئة افتراضية...
 python -m venv venv
 
-echo Activating virtual environment...
-call venv\Scripts\activate.bat
+REM 3. تفعيل البيئة الافتراضية
+call venv\Scripts\activate
 
-echo Installing requirements...
-pip install --upgrade pip
+REM 4. تحديث pip و setuptools
+echo [*] تحديث pip و setuptools...
+python -m pip install --upgrade pip setuptools
+
+REM 5. تثبيت جميع المكتبات المطلوبة
+echo [*] تثبيت المكتبات من requirements.txt...
 pip install -r requirements.txt
 
-echo.
-echo ========================================
-echo Installation completed successfully!
-echo ========================================
-echo.
-echo To run the automation:
-echo 1. Activate virtual environment: venv\Scripts\activate.bat
-echo 2. Run the script: python main.py
-echo.
+REM 6. تنزيل ChromeDriver تلقائياً (عبر webdriver-manager)
+echo [*] تنزيل ChromeDriver تلقائياً...
+python -c "from webdriver_manager.chrome import ChromeDriverManager; ChromeDriverManager().install()"
+
+REM 7. تنبيه للمتطلبات الخارجية
+echo [!] تأكد من وجود Google Chrome على جهازك.
+echo [!] إذا أردت حل الكابتشا تلقائياً، ضع مفتاح 2Captcha في config.py.
+echo [!] إذا أردت قراءة OTP تلقائياً من Gmail، فعّل App Password في بريدك.
+
+echo [*] تم التثبيت بنجاح! لتشغيل السكربت استخدم run.bat أو:
+echo python main.py
 pause 

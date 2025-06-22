@@ -149,5 +149,12 @@ CONFIG = {
         'DAILY_TIME': '00:00',
         'WEEKLY_DAY': 'monday',
         'WEEKLY_TIME': '00:00'
+    },
+
+    # Captcha settings
+    'CAPTCHA': {
+        'API_KEY': '05084421e2e002e358942640b9ce6310',  # 2Captcha API key
+        'TIMEOUT': 120,  # Timeout in seconds
+        'MAX_RETRIES': 3
     }
 } 
