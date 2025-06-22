@@ -27,14 +27,14 @@ def random_delay(min_seconds=5, max_seconds=15):
     import sys
     delay = random.uniform(min_seconds, max_seconds)
     try:
-        for remaining in range(int(delay), 0, -1):
-            sys.stdout.write(f"\r[⏱️] Sleeping for {delay:.2f} seconds. Time left: {remaining:3d} seconds ")
-            sys.stdout.flush()
-            time.sleep(1)
-        sys.stdout.write("\r" + " "*60 + "\r")
-        # For any remaining fraction of a second
-        if delay - int(delay) > 0:
-            time.sleep(delay - int(delay))
+    for remaining in range(int(delay), 0, -1):
+        sys.stdout.write(f"\r[⏱️] Sleeping for {delay:.2f} seconds. Time left: {remaining:3d} seconds ")
+        sys.stdout.flush()
+        time.sleep(1)
+    sys.stdout.write("\r" + " "*60 + "\r")
+    # For any remaining fraction of a second
+    if delay - int(delay) > 0:
+        time.sleep(delay - int(delay))
     except KeyboardInterrupt:
         sys.stdout.write("\r" + " "*60 + "\r")
         print(f"\n{Fore.YELLOW}⚠️ Delay interrupted by user")
