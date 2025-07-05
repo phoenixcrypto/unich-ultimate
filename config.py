@@ -30,8 +30,8 @@ CONFIG = {
 
     # Email settings
     'EMAIL': {
-        'IMAP_EMAIL': 'eltmsahzeyad4@gmail.com',
-        'IMAP_PASSWORD': 'euhh vngy eylx jdap',
+        'IMAP_EMAIL': 'phoenixzeyad@gmail.com',
+        'IMAP_PASSWORD': 'cclj nkxc dejl rrya',
         'IMAP_HOST': 'imap.gmail.com',
         'IMAP_PORT': 993,
         'USE_TLS': True,

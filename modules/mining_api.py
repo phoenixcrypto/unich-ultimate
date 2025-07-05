@@ -90,7 +90,14 @@ def start_mining_all_accounts():
             # Check mining status
             info_res = api.session.get(f"{api.base_url}/airdrop/user/v1/info/my-info", headers=headers)
             info_data = info_res.json()
-            mining = info_data.get('data', {}).get('mining', {})
+            if not isinstance(info_data, dict) or 'data' not in info_data or not isinstance(info_data['data'], dict) or 'mining' not in info_data['data']:
+                msg = f"[FAILED] {email} | Unexpected API response: {info_data}"
+                print(f"{Fore.RED}✖️ Failed: {email} (Unexpected API response)")
+                print(f"{Fore.YELLOW}API response: {info_data}")
+                log_to_file(msg)
+                failed += 1
+                continue
+            mining = info_data['data']['mining']
             if mining.get('started'):
                 msg = f"[ALREADY ACTIVE] {email}"
                 print(f"{Fore.BLUE}⏳ Already active: {email}")

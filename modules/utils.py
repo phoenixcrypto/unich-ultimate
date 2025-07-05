@@ -1,5 +1,6 @@
 import time
 import random
+import sys
 from fake_useragent import UserAgent
 from colorama import Fore
 
@@ -24,17 +25,20 @@ def random_delay(min_seconds=5, max_seconds=15):
     """
     Add a random delay between actions to avoid detection, with a visible countdown
     """
-    import sys
+    # Ensure min_seconds is not greater than max_seconds
+    if min_seconds > max_seconds:
+        min_seconds, max_seconds = max_seconds, min_seconds
+    
     delay = random.uniform(min_seconds, max_seconds)
     try:
-    for remaining in range(int(delay), 0, -1):
-        sys.stdout.write(f"\r[⏱️] Sleeping for {delay:.2f} seconds. Time left: {remaining:3d} seconds ")
-        sys.stdout.flush()
-        time.sleep(1)
-    sys.stdout.write("\r" + " "*60 + "\r")
-    # For any remaining fraction of a second
-    if delay - int(delay) > 0:
-        time.sleep(delay - int(delay))
+        for remaining in range(int(delay), 0, -1):
+            sys.stdout.write(f"\r[⏱️] Sleeping for {delay:.2f} seconds. Time left: {remaining:3d} seconds ")
+            sys.stdout.flush()
+            time.sleep(1)
+        sys.stdout.write("\r" + " "*60 + "\r")
+        # For any remaining fraction of a second
+        if delay - int(delay) > 0:
+            time.sleep(delay - int(delay))
     except KeyboardInterrupt:
         sys.stdout.write("\r" + " "*60 + "\r")
         print(f"\n{Fore.YELLOW}⚠️ Delay interrupted by user")
@@ -42,7 +46,7 @@ def random_delay(min_seconds=5, max_seconds=15):
 
 def create_chrome_options():
     """
-    Create Chrome options with random user agent and other anti-detection settings, and spoof JS properties
+    Create Chrome options with random user agent and other anti-detection settings
     """
     from selenium.webdriver.chrome.options import Options
     options = Options()
@@ -53,28 +57,25 @@ def create_chrome_options():
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-extensions")
     options.add_argument("--disable-popup-blocking")
-    # تعطيل Google Password Manager (غير مدعوم في undetected_chromedriver)
-    # options.add_experimental_option("prefs", {
-    #     "credentials_enable_service": False,
-    #     "profile.password_manager_enabled": False
-    # })
-    # WebRTC leak prevention
     options.add_argument("--disable-webrtc")
-    # JS spoofing script (to be injected after driver creation)
-    options.js_spoof_script = '''
+    
+    return options
+
+def get_js_spoof_script():
+    """
+    Return JavaScript script for spoofing browser properties
+    """
+    return '''
         Object.defineProperty(navigator, 'platform', {get: () => ['Win32','Linux x86_64','MacIntel'][Math.floor(Math.random()*3)]});
         Object.defineProperty(navigator, 'deviceMemory', {get: () => [4, 8, 16][Math.floor(Math.random()*3)]});
         Object.defineProperty(navigator, 'hardwareConcurrency', {get: () => [2, 4, 8][Math.floor(Math.random()*3)]});
         const getParameter = WebGLRenderingContext.prototype.getParameter;
         WebGLRenderingContext.prototype.getParameter = function(parameter) {
-            // Spoof WebGL vendor
             if (parameter === 37445) return 'NVIDIA Corporation';
             if (parameter === 37446) return 'NVIDIA GeForce GTX 1050/PCIe/SSE2';
             return getParameter.call(this, parameter);
         };
-        // Disable WebRTC leaks
         if (window.RTCPeerConnection) {
             window.RTCPeerConnection = undefined;
         }
     '''
-    return options 
