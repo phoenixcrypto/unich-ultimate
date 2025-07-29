@@ -1,4 +1,33 @@
+<div align="center">
+
 # 🤖 UNICH Project Automation
+
+```
+ █    ██  ███▄    █  ██▓ ▄████▄   ██░ ██     ██▓███   ██░ ██  ▒█████  ▓█████  ███▄    █  ██▓▒██   ██▒
+ ██  ▓██▒ ██ ▀█   █ ▓██▒▒██▀ ▀█  ▓██░ ██▒   ▓██░  ██▒▓██░ ██▒▒██▒  ██▒▓█   ▀  ██ ▀█   █ ▓██▒▒▒ █ █ ▒░
+▓██  ▒██░▓██  ▀█ ██▒▒██▒▒▓█    ▄ ▒██▀▀██░   ▓██░ ██▓▒▒██▀▀██░▒██░  ██▒▒███   ▓██  ▀█ ██▒▒██▒░░  █   ░
+▓▓█  ░██░▓██▒  ▐▌██▒░██░▒▓▓▄ ▄██▒░▓█ ░██    ▒██▄█▓▒ ▒░▓█ ░██ ▒██   ██░▒▓█  ▄ ▓██▒  ▐▌██▒░██░ ░ █ █ ▒ 
+▒▒█████▓ ▒██░   ▓██░░██░▒ ▓███▀ ░░▓█▒░██▓   ▒██▒ ░  ░░▓█▒░██▓░ ████▓▒░░▒████▒▒██░   ▓██░░██░▒██▒ ▒██▒
+░▒▓▒ ▒ ▒ ░ ▒░   ▒ ▒ ░▓  ░ ░▒ ▒  ░ ▒ ░░▒░▒   ▒▓▒░ ░  ░ ▒ ░░▒░▒░ ▒░▒░▒░ ░░ ▒░ ░░ ▒░   ▒ ▒ ░▓  ▒▒ ░ ░▓ ░
+░░▒░ ░ ░ ░ ░░   ░ ▒░ ▒ ░  ░  ▒    ▒ ░▒░ ░   ░▒ ░      ▒ ░▒░ ░  ░ ▒ ▒░  ░ ░  ░░ ░░   ░ ▒░ ▒ ░░░   ░▒ ░
+ ░░░ ░ ░    ░   ░ ░  ▒ ░░         ░  ░░ ░   ░░        ░  ░░ ░░ ░ ░ ▒     ░      ░   ░ ░  ▒ ░ ░    ░  
+   ░              ░  ░  ░ ░       ░  ░  ░             ░  ░  ░    ░ ░     ░  ░         ░  ░   ░    ░  
+                        ░                                                                            
+```
+
+### 🚀 **UNICH Project Automation by PhoenixCrypto_PC** 🚀
+
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-Educational-green.svg)](LICENSE)
+[![Telegram](https://img.shields.io/badge/Telegram-@PhoenixCrypto__PC-blue.svg)](https://t.me/PhoenixCrypto_PC)
+
+---
+
+**نظام أتمتة متقدم لمشروع UNICH مع ميزات شاملة لإدارة الحسابات والتعدين والمراقبة**
+
+---
+
+</div>
 
 ## 📋 نظرة عامة
 
@@ -209,4 +238,27 @@ export API_KEY_CAPSOLVER="your-capsolver-key"
 
 ---
 
-**تم تطوير هذا النظام بواسطة PhoenixCrypto_PC** 🚀 
+<div align="center">
+
+## 🏆 **تم تطوير هذا النظام بواسطة PhoenixCrypto_PC** 🏆
+
+```
+██████╗ ██╗  ██╗ ██████╗ ███████╗███╗   ██╗██╗██╗  ██╗
+██╔══██╗██║  ██║██╔═══██╗██╔════╝████╗  ██║██║╚██╗██╔╝
+██████╔╝███████║██║   ██║█████╗  ██╔██╗ ██║██║ ╚███╔╝ 
+██╔═══╝ ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║██║ ██╔██╗ 
+██║     ██║  ██║╚██████╔╝███████╗██║ ╚████║██║██╔╝ ██╗
+╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
+```
+
+### 🌟 **شكراً لاستخدام UNICH Project Automation** 🌟
+
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black.svg)](https://github.com/phoenixcrypto/unich-pro)
+[![Telegram](https://img.shields.io/badge/Telegram-@PhoenixCrypto__PC-blue.svg)](https://t.me/PhoenixCrypto_PC)
+[![Stars](https://img.shields.io/badge/Stars-⭐-yellow.svg)](https://github.com/phoenixcrypto/unich-pro/stargazers)
+
+---
+
+**🚀 تم تطوير هذا النظام بواسطة PhoenixCrypto_PC** 🚀
+
+</div> 
