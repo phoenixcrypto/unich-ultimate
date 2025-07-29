@@ -1,71 +1,348 @@
 from colorama import Fore, Style, init
 import sys
+import time
 init(autoreset=True)
 
-# استيراد دوال التوليد والأتمتة
+# Import generation and automation functions
 from modules.gmail_dot_generator import save_gmail_variants_to_accounts
 import importlib
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+import questionary
+from modules.api_interaction import main_api
+from modules.mining_api import start_mining_all_accounts
+from config import CONFIG
 
-def print_menu():
-    print(Fore.CYAN + Style.BRIGHT + "\n" + "="*50)
-    print(Fore.CYAN + Style.BRIGHT + "🤖 UNICH Project Automation by PhoenixCrypto_PC 🤖".center(50, "-"))
-    print(Fore.CYAN + Style.BRIGHT + "="*50)
-    print(Fore.WHITE + Style.BRIGHT + "\n" + "🔥 Features:")
-    print(Fore.GREEN + Style.BRIGHT + "  • Generate unlimited Gmail dot trick emails")
-    print(Fore.GREEN + Style.BRIGHT + "  • Fully automated referral registration for Unich")
-    print(Fore.GREEN + Style.BRIGHT + "  • Direct API interaction (Fast & Automated)")
-    print(Fore.CYAN + Style.BRIGHT + "="*50)
-    print(Fore.YELLOW + Style.BRIGHT + "1. ✉️  Generate Gmail Dot Trick Emails")
-    print(Fore.YELLOW + Style.BRIGHT + "2. 🚀 Run Referral Automation (Browser)")
-    print(Fore.YELLOW + Style.BRIGHT + "3. 🔌 Run API Direct Registration (Fast + 2Captcha)")
-    print(Fore.YELLOW + Style.BRIGHT + "4. ⛏️  Start Mining for All Accounts (API)")
-    print(Fore.RED + Style.BRIGHT + "0. ❌ Exit")
-    print(Fore.CYAN + Style.BRIGHT + "="*50)
-    print()
-    print(Fore.MAGENTA + Style.BRIGHT + "📢 Telegram Channel: " +
-          Fore.WHITE + Style.BRIGHT + "@PhoenixCrypto_PC")
-    print(Fore.BLUE + Style.BRIGHT + "🔗 https://t.me/PhoenixCrypto_PC")
-    print()
+def print_logo():
+    console = Console()
+    logo = '''
+[bold magenta]
+ █    ██  ███▄    █  ██▓ ▄████▄   ██░ ██     ██▓███   ██░ ██  ▒█████  ▓█████  ███▄    █  ██▓▒██   ██▒
+ ██  ▓██▒ ██ ▀█   █ ▓██▒▒██▀ ▀█  ▓██░ ██▒   ▓██░  ██▒▓██░ ██▒▒██▒  ██▒▓█   ▀  ██ ▀█   █ ▓██▒▒▒ █ █ ▒░
+▓██  ▒██░▓██  ▀█ ██▒▒██▒▒▓█    ▄ ▒██▀▀██░   ▓██░ ██▓▒▒██▀▀██░▒██░  ██▒▒███   ▓██  ▀█ ██▒▒██▒░░  █   ░
+▓▓█  ░██░▓██▒  ▐▌██▒░██░▒▓▓▄ ▄██▒░▓█ ░██    ▒██▄█▓▒ ▒░▓█ ░██ ▒██   ██░▒▓█  ▄ ▓██▒  ▐▌██▒░██░ ░ █ █ ▒ 
+▒▒█████▓ ▒██░   ▓██░░██░▒ ▓███▀ ░░▓█▒░██▓   ▒██▒ ░  ░░▓█▒░██▓░ ████▓▒░░▒████▒▒██░   ▓██░░██░▒██▒ ▒██▒
+░▒▓▒ ▒ ▒ ░ ▒░   ▒ ▒ ░▓  ░ ░▒ ▒  ░ ▒ ░░▒░▒   ▒▓▒░ ░  ░ ▒ ░░▒░▒░ ▒░▒░▒░ ░░ ▒░ ░░ ▒░   ▒ ▒ ░▓  ▒▒ ░ ░▓ ░
+░░▒░ ░ ░ ░ ░░   ░ ▒░ ▒ ░  ░  ▒    ▒ ░▒░ ░   ░▒ ░      ▒ ░▒░ ░  ░ ▒ ▒░  ░ ░  ░░ ░░   ░ ▒░ ▒ ░░░   ░▒ ░
+ ░░░ ░ ░    ░   ░ ░  ▒ ░░         ░  ░░ ░   ░░        ░  ░░ ░░ ░ ░ ▒     ░      ░   ░ ░  ▒ ░ ░    ░  
+   ░              ░  ░  ░ ░       ░  ░  ░             ░  ░  ░    ░ ░     ░  ░         ░  ░   ░    ░  
+                        ░                                                                            
+[/bold magenta]
+    '''
+    console.print(logo, justify="center")
 
-def run_automation():
+def print_features():
+    console = Console()
+    table = Table(show_header=False, box=None, expand=True)
+    table.add_row("[bold yellow]1.[/bold yellow]", "✉️  Generate Gmail Dot Trick Emails")
+    table.add_row("[bold yellow]2.[/bold yellow]", "🔌 API Registration (2Captcha/Anticaptcha/Capsolver)")
+    table.add_row("[bold yellow]3.[/bold yellow]", "⛏️  Start Mining for All Accounts")
+    table.add_row("[bold yellow]4.[/bold yellow]", "📊 View Statistics & Performance")
+    table.add_row("[bold yellow]5.[/bold yellow]", "🔍 System Health Check")
+    table.add_row("[bold yellow]6.[/bold yellow]", "📦 Backup & Restore Management")
+    table.add_row("[bold red]0.[/bold red]", "❌ Exit")
+    panel = Panel(table, title="[bold cyan]🔥 Features[/bold cyan]", subtitle="by PhoenixCrypto_PC", style="bold cyan", padding=(1,2))
+    console.print("\n" + "="*60)
+    console.print("[bold cyan]-🤖 UNICH Project Automation by PhoenixCrypto_PC 🤖-".center(60))
+    console.print("="*60 + "\n")
+    console.print(panel)
+    console.print("[magenta]📢 Telegram Channel: [white]@PhoenixCrypto_PC")
+    console.print("[blue]🔗 https://t.me/PhoenixCrypto_PC\n")
+
+def run_automation(chromedriver_arch='win64'):
     print(Fore.GREEN + Style.BRIGHT + "\n🚀 Starting referral automation...\n")
-    # استيراد دالة main من ملف الأتمتة
     automation = importlib.import_module("modules.automation")
-    automation.main()
+    automation.main(chromedriver_arch=chromedriver_arch)
 
 def run_api_automation():
     print(Fore.GREEN + Style.BRIGHT + "\n🔌 Starting API direct registration...\n")
     # استيراد دالة main_api من وحدة API
-    from modules.api_interaction import main_api
     main_api()
 
 def main():
+    # Print logo and features only once
+    print("""
+    █    ██  ███▄    █  ██▓ ▄████▄   ██░ ██     ██▓███   ██░ ██  ▒█████  ▓█████  ███▄    █  ██▓▒██   ██▒    
+    ██  ▓██▒ ██ ▀█   █ ▓██▒▒██▀ ▀█  ▓██░ ██▒   ▓██░  ██▒▓██░ ██▒▒██▒  ██▒▓█   ▀  ██ ▀█   █ ▓██▒▒▒ █ █ ▒░    
+   ▓██  ▒██░▓██  ▀█ ██▒▒██▒▒▓█    ▄ ▒██▀▀██░   ▓██░ ██▓▒▒██▀▀██░▒██░  ██▒▒███   ▓██  ▀█ ██▒▒██▒░░  █   ░    
+   ▓▓█  ░██░▓██▒  ▐▌██▒░██░▒▓▓▄ ▄██▒░▓█ ░██    ▒██▄█▓▒ ▒░▓█ ░██ ▒██   ██░▒▓█  ▄ ▓██▒  ▐▌██▒░██░ ░ █ █ ▒     
+   ▒▒█████▓ ▒██░   ▓██░░██░▒ ▓███▀ ░░▓█▒░██▓   ▒██▒ ░  ░░▓█▒░██▓░ ████▓▒░░▒████▒▒██░   ▓██░░██░▒██▒ ▒██▒    
+   ░▒▓▒ ▒ ▒ ░ ▒░   ▒ ▒ ░▓  ░ ░▒ ▒  ░ ▒ ░░▒░▒   ▒▓▒░ ░  ░ ▒ ░░▒░▒░ ▒░▒░▒░ ░░ ▒░ ░░ ▒░   ▒ ▒ ░▓  ▒▒ ░ ░▓ ░    
+   ░░▒░ ░ ░ ░ ░░   ░ ▒░ ▒ ░  ░  ▒    ▒ ░▒░ ░   ░▒ ░      ▒ ░▒░ ░  ░ ▒ ▒░  ░ ░  ░░ ░░   ░ ▒░ ▒ ░░░   ░▒ ░    
+     ░░░ ░ ░    ░   ░ ░  ▒ ░░         ░  ░░ ░   ░░        ░  ░░ ░░ ░ ░ ▒     ░      ░   ░ ░  ▒ ░ ░    ░     
+       ░              ░  ░  ░ ░       ░  ░  ░             ░  ░  ░    ░ ░     ░  ░         ░  ░   ░    ░     
+                                                                 ░
+    """)
+    print("\n" + "="*60)
+    print("🤖  \033[1;36mUNICH Project Automation by PhoenixCrypto_PC\033[0m  🤖")
+    print("="*60 + "\n")
+    # Features in modern style
+    print("\033[1;33m✨ Features ✨\033[0m\n")
+    print("\033[1;32m 1. ✉️  Generate Gmail Dot Trick Emails\033[0m")
+    print("\033[1;36m 2. 🔌 Fast API Registration with 2Captcha/Anticaptcha/Capsolver support\033[0m")
+    print("\033[1;35m 3. ⛏️  Start mining for all accounts automatically\033[0m")
+    print("\033[1;31m 0. ❌ Exit\033[0m\n")
+    print("-"*60)
+    print("📢 Telegram Channel: \033[1;35m@PhoenixCrypto_PC\033[0m")
+    print("🔗 https://t.me/PhoenixCrypto_PC\n")
+    print("-"*60)
+    # Options menu in a loop
+    options = [
+         "1. ✉️ Generate Gmail Dot Trick Emails",
+         "2. 🔌 API Registration (2Captcha/Anticaptcha/Capsolver)",
+         "3. ⛏️ Start Mining for All Accounts",
+         "4. 📊 View Statistics & Performance",
+         "5. 🔍 System Health Check",
+         "6. 📦 Backup & Restore Management",
+         "0. ❌ Exit"
+     ]
+    import questionary
     while True:
-        print_menu()
-        choice = input(Fore.MAGENTA + Style.BRIGHT + "\n👉 Enter your choice: ").strip()
-        if choice == "1":
-            print(Fore.BLUE + Style.BRIGHT + "\n[Dot Trick Email Generator]")
-            base = input(Fore.YELLOW + Style.BRIGHT + "\n✉️  Enter Gmail username (before @): ").strip()
-            while not base:
-                print(Fore.RED + Style.BRIGHT + "❌ Username cannot be empty. Please try again.")
-                base = input(Fore.YELLOW + Style.BRIGHT + "✉️  Enter Gmail username (before @): ").strip()
-            password = input(Fore.YELLOW + Style.BRIGHT + "🔑 Enter password for all emails: ").strip()
-            while not password:
-                print(Fore.RED + Style.BRIGHT + "❌ Password cannot be empty. Please try again.")
-                password = input(Fore.YELLOW + Style.BRIGHT + "🔑 Enter password for all emails: ").strip()
-            save_gmail_variants_to_accounts(base, password)
-        elif choice == "2":
-            run_automation()
-        elif choice == "3":
-            run_api_automation()
-        elif choice == "4":
-            from modules.mining_api import start_mining_all_accounts
+        answer = questionary.select(
+            "? 👉 Choose an option:",
+            choices=options
+        ).ask()
+        if answer is None:
+            print("No option selected. Exiting...")
+            exit(0)
+        if answer.startswith("1"):
+            # Call Gmail dot trick email generator
+            print(f"{Fore.CYAN}✉️  Gmail Dot Trick Generator{Style.RESET_ALL}")
+            print("="*50)
+            
+            # Get username
+            username = questionary.text(
+                "Enter Gmail username (before @):",
+                validate=lambda text: True if text.strip() else "Username cannot be empty"
+            ).ask()
+            
+            if username is None:
+                print("Operation cancelled. Returning to menu.")
+                continue
+                
+            # Get password
+            password = questionary.text(
+                "Enter password for all emails:",
+                validate=lambda text: True if text.strip() else "Password cannot be empty"
+            ).ask()
+            
+            if password is None:
+                print("Operation cancelled. Returning to menu.")
+                continue
+            
+            # Generate and save emails
+            try:
+                save_gmail_variants_to_accounts(username.strip(), password.strip())
+                print(f"{Fore.GREEN}✅ Gmail variants generated successfully!")
+            except Exception as e:
+                print(f"{Fore.RED}❌ Error generating Gmail variants: {e}")
+            
+            print("\n" + "="*50)
+        elif answer.startswith("2"):
+            # Ask user which captcha provider to use
+            captcha_choices = [
+                ("2captcha", "API_KEY_2CAPTCHA"),
+                ("anticaptcha", "API_KEY_ANTICAPTCHA"),
+                ("capsolver", "API_KEY_CAPSOLVER")
+            ]
+            provider = questionary.select(
+                "Which captcha provider do you want to use?",
+                choices=[c[0] for c in captcha_choices]
+            ).ask()
+            if provider is None:
+                print("No captcha provider selected. Returning to menu.")
+                continue
+            key_name = dict(captcha_choices)[provider]
+            api_key = CONFIG['CAPTCHA'].get(key_name, '')
+            if not api_key:
+                print(f"[ERROR] No API key set for {provider} in config.py! Returning to menu.")
+                continue
+            print(f"[INFO] Using {provider} for captcha solving.")
+            main_api(force_captcha_provider=provider)
+        elif answer.startswith("3"):
+            # Call mining function
             start_mining_all_accounts()
-        elif choice == "0":
-            print(Fore.MAGENTA + Style.BRIGHT + "\n👋 Goodbye! Have a productive day!\n")
-            sys.exit(0)
+        elif answer.startswith("4"):
+            # View Statistics & Performance
+            try:
+                from modules.stats import stats_manager
+                from modules.performance_monitor import performance_monitor
+                
+                print(f"{Fore.CYAN}📊 Statistics & Performance Dashboard{Style.RESET_ALL}")
+                print("="*60)
+                
+                # Show statistics
+                stats_manager.print_summary()
+                print()
+                
+                # Show performance
+                performance_monitor.print_performance_summary()
+                print()
+                
+                # Show recent alerts
+                recent_alerts = performance_monitor.get_recent_alerts()
+                if recent_alerts:
+                    print(f"{Fore.YELLOW}⚠️ Recent Alerts:")
+                    for alert in recent_alerts[-5:]:  # Show last 5 alerts
+                        print(f"   {alert['timestamp'].strftime('%H:%M:%S')} - {alert['message']}")
+                else:
+                    print(f"{Fore.GREEN}✅ No recent alerts")
+                
+                print("="*60)
+            except Exception as e:
+                print(f"{Fore.RED}❌ Error loading statistics: {e}")
+        elif answer.startswith("5"):
+            # System Health Check
+            try:
+                from modules.performance_monitor import performance_monitor
+                from modules.session_manager import session_manager
+                
+                print(f"{Fore.CYAN}🔍 System Health Check{Style.RESET_ALL}")
+                print("="*60)
+                
+                # Start monitoring if not already running
+                if not performance_monitor.monitoring:
+                    performance_monitor.start_monitoring()
+                
+                # Get current metrics
+                current_metrics = performance_monitor.get_current_metrics()
+                if current_metrics:
+                    print(f"{Fore.BLUE}Current System Status:")
+                    print(f"   CPU: {current_metrics['cpu_percent']:.1f}%")
+                    print(f"   Memory: {current_metrics['memory_percent']:.1f}%")
+                    print(f"   Disk: {current_metrics['disk_percent']:.1f}%")
+                    print(f"   Process Memory: {current_metrics['process_memory_mb']:.1f} MB")
+                else:
+                    print(f"{Fore.YELLOW}Collecting system metrics...")
+                    time.sleep(2)
+                    current_metrics = performance_monitor.get_current_metrics()
+                    if current_metrics:
+                        print(f"{Fore.BLUE}Current System Status:")
+                        print(f"   CPU: {current_metrics['cpu_percent']:.1f}%")
+                        print(f"   Memory: {current_metrics['memory_percent']:.1f}%")
+                        print(f"   Disk: {current_metrics['disk_percent']:.1f}%")
+                        print(f"   Process Memory: {current_metrics['process_memory_mb']:.1f} MB")
+                
+                # Get session stats
+                session_stats = session_manager.get_session_stats()
+                print(f"\n{Fore.BLUE}Session Status:")
+                print(f"   Active Sessions: {session_stats['active_sessions']}")
+                print(f"   Total Requests: {session_stats['total_requests']}")
+                print(f"   Requests (Last Hour): {session_stats['requests_last_hour']}")
+                
+                # Show system health status
+                print(f"\n{Fore.CYAN}System Health Status:")
+                if current_metrics:
+                    cpu_status = "🟢 Good" if current_metrics['cpu_percent'] < 80 else "🟡 Warning" if current_metrics['cpu_percent'] < 90 else "🔴 Critical"
+                    memory_status = "🟢 Good" if current_metrics['memory_percent'] < 80 else "🟡 Warning" if current_metrics['memory_percent'] < 90 else "🔴 Critical"
+                    disk_status = "🟢 Good" if current_metrics['disk_percent'] < 80 else "🟡 Warning" if current_metrics['disk_percent'] < 90 else "🔴 Critical"
+                    
+                    print(f"   CPU: {cpu_status}")
+                    print(f"   Memory: {memory_status}")
+                    print(f"   Disk: {disk_status}")
+                else:
+                    print(f"   ⚠️  Collecting data...")
+                
+                print("="*60)
+                # Add a small delay to prevent text overlap
+                time.sleep(1)
+            except Exception as e:
+                print(f"{Fore.RED}❌ Error during health check: {e}")
+        elif answer.startswith("6"):
+            # Backup & Restore Management
+            try:
+                from modules.backup_manager import backup_manager
+                 
+                print(f"{Fore.CYAN}📦 Backup & Restore Management{Style.RESET_ALL}")
+                print("="*60)
+                
+                backup_options = [
+                    "1. Create Backup Now",
+                    "2. View Backup Status",
+                    "3. List All Backups",
+                    "4. Restore from Backup",
+                    "5. Auto Backup Check",
+                    "0. Back to Main Menu"
+                ]
+                
+                while True:
+                    backup_choice = questionary.select(
+                        "Choose backup option:",
+                        choices=backup_options
+                    ).ask()
+                    
+                    if backup_choice is None:
+                        break
+                    
+                    if backup_choice.startswith("1"):
+                        # Create backup
+                        success = backup_manager.create_backup(force=True)
+                        if success:
+                            print(f"{Fore.GREEN}✅ Backup created successfully!")
+                        else:
+                            print(f"{Fore.RED}❌ Backup failed!")
+                    
+                    elif backup_choice.startswith("2"):
+                        # View status
+                        backup_manager.print_backup_status()
+                    
+                    elif backup_choice.startswith("3"):
+                        # List backups
+                        backups = backup_manager.list_backups()
+                        if backups:
+                            print(f"{Fore.BLUE}📋 Available Backups:")
+                            for i, backup in enumerate(backups[:5], 1):  # Show last 5
+                                print(f"   {i}. {backup['backup_name']} - {backup['timestamp']}")
+                                print(f"      Files: {len(backup['files_copied'])}")
+                        else:
+                            print(f"{Fore.YELLOW}No backups found")
+                    
+                    elif backup_choice.startswith("4"):
+                        # Restore backup
+                        backups = backup_manager.list_backups()
+                        if backups:
+                            backup_names = [b['backup_name'] for b in backups[:5]]
+                            selected_backup = questionary.select(
+                                "Select backup to restore:",
+                                choices=backup_names
+                            ).ask()
+                            
+                            if selected_backup:
+                                confirm = questionary.confirm(
+                                    f"Are you sure you want to restore from {selected_backup}?"
+                                ).ask()
+                                
+                                if confirm:
+                                    success = backup_manager.restore_backup(selected_backup)
+                                    if success:
+                                        print(f"{Fore.GREEN}✅ Restore completed!")
+                                    else:
+                                        print(f"{Fore.RED}❌ Restore failed!")
+                        else:
+                            print(f"{Fore.YELLOW}No backups available for restore")
+                    
+                    elif backup_choice.startswith("5"):
+                        # Auto backup check
+                        success = backup_manager.auto_backup()
+                        if success:
+                            print(f"{Fore.GREEN}✅ Auto backup check completed!")
+                        else:
+                            print(f"{Fore.RED}❌ Auto backup failed!")
+                    
+                    elif backup_choice.startswith("0"):
+                        break
+                
+                print("="*60)
+            except Exception as e:
+                print(f"{Fore.RED}❌ Error in backup management: {e}")
+        
+        elif answer.startswith("0"):
+            print("Exiting...")
+            exit(0)
         else:
-            print(Fore.RED + Style.BRIGHT + "\n❌ Invalid choice. Please select a valid option.")
+            print("Unknown option!")
+            exit(1)
 
 if __name__ == "__main__":
     main() 

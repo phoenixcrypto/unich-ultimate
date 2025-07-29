@@ -45,16 +45,17 @@ ehthumbs.db
 Thumbs.db
 
 # Logs
-logs/*.log
+logs/
 *.log
 
-# Data files (keep structure but clear content)
+# Data files (optional - remove if you want to track them)
 data/accounts.txt
 data/done.txt
 data/errors.txt
+data/statistics.json
 
-# Chrome driver (will be downloaded automatically)
-drivers/chromedriver-win32/
+# Backups
+backups/
 
 # Environment variables
 .env

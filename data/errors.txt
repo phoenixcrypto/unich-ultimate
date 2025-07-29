@@ -1,2 +1,0 @@
-# Failed accounts with errors
-# Format: email:error_message

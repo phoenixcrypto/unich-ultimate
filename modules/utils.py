@@ -1,34 +1,48 @@
 import time
 import random
 import sys
-from fake_useragent import UserAgent
+import logging
+from datetime import datetime
 from colorama import Fore
+
+# Setup logging
+def setup_logging(log_file="logs/app.log"):
+    """Setup logging configuration"""
+    # Create logs directory if it doesn't exist
+    import os
+    log_dir = os.path.dirname(log_file)
+    if log_dir and not os.path.exists(log_dir):
+        os.makedirs(log_dir, exist_ok=True)
+    
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler(log_file, encoding='utf-8'),
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
+    return logging.getLogger(__name__)
+
+logger = setup_logging()
 
 def get_random_user_agent():
     """
-    Generate a random user agent string using fake_useragent library
+    إرجاع user agent عشوائي من قائمة ثابتة (بدون fake_useragent)
     """
-    try:
-        ua = UserAgent()
-        return ua.random
-    except Exception as e:
-        print(f"⚠️ Error generating random user agent: {str(e)}")
-        # Fallback to a list of common user agents if fake_useragent fails
-        common_agents = [
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        ]
-        return random.choice(common_agents)
+    common_agents = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    ]
+    return random.choice(common_agents)
 
 def random_delay(min_seconds=5, max_seconds=15):
     """
-    Add a random delay between actions to avoid detection, with a visible countdown
+    إضافة تأخير عشوائي بين العمليات مع عد تنازلي
     """
-    # Ensure min_seconds is not greater than max_seconds
     if min_seconds > max_seconds:
         min_seconds, max_seconds = max_seconds, min_seconds
-    
     delay = random.uniform(min_seconds, max_seconds)
     try:
         for remaining in range(int(delay), 0, -1):
@@ -36,46 +50,42 @@ def random_delay(min_seconds=5, max_seconds=15):
             sys.stdout.flush()
             time.sleep(1)
         sys.stdout.write("\r" + " "*60 + "\r")
-        # For any remaining fraction of a second
         if delay - int(delay) > 0:
             time.sleep(delay - int(delay))
     except KeyboardInterrupt:
         sys.stdout.write("\r" + " "*60 + "\r")
         print(f"\n{Fore.YELLOW}⚠️ Delay interrupted by user")
+        logger.warning("Delay interrupted by user")
         raise
 
-def create_chrome_options():
-    """
-    Create Chrome options with random user agent and other anti-detection settings
-    """
-    from selenium.webdriver.chrome.options import Options
-    options = Options()
-    options.add_argument(f"user-agent={get_random_user_agent()}")
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-extensions")
-    options.add_argument("--disable-popup-blocking")
-    options.add_argument("--disable-webrtc")
-    
-    return options
+def log_success(message):
+    """Log success message with color"""
+    print(f"{Fore.GREEN}✅ {message}")
+    logger.info(f"SUCCESS: {message}")
 
-def get_js_spoof_script():
-    """
-    Return JavaScript script for spoofing browser properties
-    """
-    return '''
-        Object.defineProperty(navigator, 'platform', {get: () => ['Win32','Linux x86_64','MacIntel'][Math.floor(Math.random()*3)]});
-        Object.defineProperty(navigator, 'deviceMemory', {get: () => [4, 8, 16][Math.floor(Math.random()*3)]});
-        Object.defineProperty(navigator, 'hardwareConcurrency', {get: () => [2, 4, 8][Math.floor(Math.random()*3)]});
-        const getParameter = WebGLRenderingContext.prototype.getParameter;
-        WebGLRenderingContext.prototype.getParameter = function(parameter) {
-            if (parameter === 37445) return 'NVIDIA Corporation';
-            if (parameter === 37446) return 'NVIDIA GeForce GTX 1050/PCIe/SSE2';
-            return getParameter.call(this, parameter);
-        };
-        if (window.RTCPeerConnection) {
-            window.RTCPeerConnection = undefined;
-        }
-    '''
+def log_error(message, error=None):
+    """Log error message with color and details"""
+    print(f"{Fore.RED}❌ {message}")
+    if error:
+        print(f"{Fore.YELLOW}Details: {error}")
+        logger.error(f"ERROR: {message} - {error}")
+    else:
+        logger.error(f"ERROR: {message}")
+
+def log_warning(message):
+    """Log warning message with color"""
+    print(f"{Fore.YELLOW}⚠️ {message}")
+    logger.warning(f"WARNING: {message}")
+
+def log_info(message):
+    """Log info message with color"""
+    print(f"{Fore.BLUE}ℹ️ {message}")
+    logger.info(f"INFO: {message}")
+
+def log_progress(current, total, message=""):
+    """Log progress with percentage"""
+    percentage = (current / total) * 100
+    progress_bar = "█" * int(percentage / 2) + "░" * (50 - int(percentage / 2))
+    print(f"\r{Fore.CYAN}📊 Progress: [{progress_bar}] {percentage:.1f}% ({current}/{total}) {message}", end="")
+    if current == total:
+        print()  # New line when complete

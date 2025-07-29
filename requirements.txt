@@ -1,19 +1,7 @@
 colorama>=0.4.6
-selenium>=4.15.2
-webdriver-manager>=4.0.1
-python-dotenv>=1.0.0
-cryptography>=41.0.5
-schedule==1.2.1
-beautifulsoup4==4.12.2
-undetected-chromedriver==3.5.4
-fake-useragent==1.4.0
-opencv-python==4.9.0.80
-numpy==1.26.4
-pillow>=10.0.0
 requests>=2.31.0
-python-dateutil>=2.8.2
-tqdm>=4.66.1
-setuptools>=68.0.0
-pycryptodome~=3.21.0
-curl_cffi~=0.10.0
-ddddocr @ git+https://github.com/sml2h3/ddddocr.git@main#egg=ddddocr
+beautifulsoup4==4.12.2
+rich>=13.0.0
+questionary>=2.0.0
+anticaptchaofficial
+psutil>=5.9.0

@@ -33,19 +33,4 @@ def save_gmail_variants_to_accounts(username, password, output_file="data/accoun
 
 if __name__ == "__main__":
     print("\n❌ Running this file directly is considered fraudulent!\nPlease run the main script using: python main.py\n")
-    exit(1)
-    print(Fore.CYAN + Style.BRIGHT + "="*44)
-    print(Fore.CYAN + Style.BRIGHT + "🚀 Gmail Dot Trick Generator 🚀".center(44, "-"))
-    print(Fore.CYAN + Style.BRIGHT + "="*44)
-    while True:
-        base = input(Fore.YELLOW + Style.BRIGHT + "\n✉️  Enter Gmail username (before @): ").strip()
-        if base:
-            break
-        print(Fore.RED + Style.BRIGHT + "❌ Username cannot be empty. Please try again.")
-    while True:
-        password = input(Fore.YELLOW + Style.BRIGHT + "🔑 Enter password for all emails: ").strip()
-        if password:
-            break
-        print(Fore.RED + Style.BRIGHT + "❌ Password cannot be empty. Please try again.")
-    save_gmail_variants_to_accounts(base, password)
-    print(Fore.MAGENTA + Style.BRIGHT + "🎉 All done! You can now use these emails for your automation tasks. 🎉\n") 
+    exit(1) 

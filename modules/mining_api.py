@@ -2,6 +2,7 @@ import json
 import os
 import time
 import random
+from datetime import datetime
 from colorama import Fore, init
 from modules.api_interaction import UnichAPI
 
@@ -121,6 +122,15 @@ def start_mining_all_accounts():
             msg = f"[FAILED] {email} | {str(err)}"
             print(f"{Fore.RED}✖️ Failed: {email}\n{err}")
             log_to_file(msg)
+            
+            # Save error to errors.txt file
+            try:
+                from config import CONFIG
+                with open(CONFIG['FILES']['ERRORS'], 'a', encoding='utf-8') as f:
+                    f.write(f"{datetime.now().isoformat()} - {email} - Mining failed: {str(err)}\n")
+            except Exception as save_error:
+                print(f"Failed to save error to file: {save_error}")
+            
             failed += 1
         time.sleep(2)  # Small delay between accounts
     summary = f"[SUMMARY] Already active: {already_active}, Activated: {activated}, Failed: {failed}, Total: {len(accounts)}"
