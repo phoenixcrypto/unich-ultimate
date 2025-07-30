@@ -81,9 +81,9 @@ def validate_config():
     
     # Validate email settings
     if not CONFIG['EMAIL']['IMAP_PASSWORD'] or CONFIG['EMAIL']['IMAP_PASSWORD'] == 'your-app-password':
-        print("⚠️  Warning: Gmail password not set. Please set GMAIL_PASSWORD environment variable.")
+        print("Warning: Gmail password not set. Please set GMAIL_PASSWORD environment variable.")
     
     # Validate captcha settings
     captcha_keys = CONFIG['CAPTCHA']
     if not any([captcha_keys['API_KEY_2CAPTCHA'], captcha_keys['API_KEY_ANTICAPTCHA'], captcha_keys['API_KEY_CAPSOLVER']]):
-        print("⚠️  Warning: No captcha API keys set. Please set environment variables for captcha services.")
+        print("Warning: No captcha API keys set. Please set environment variables for captcha services.")

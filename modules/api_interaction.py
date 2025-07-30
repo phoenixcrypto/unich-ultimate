@@ -24,33 +24,22 @@ USER_AGENTS = [
 
 def retry_with_backoff(func, max_retries=3, base_delay=1):
     """
-    Retry function with exponential backoff and intelligent logging
+    Retry function with exponential backoff
     """
     for attempt in range(max_retries):
         try:
             return func()
         except Exception as e:
             if attempt == max_retries - 1:
-                # Last attempt failed, raise the exception
-                log_error(f"All {max_retries} attempts failed. Final error: {str(e)}")
                 raise e
-            
-            # Calculate delay with exponential backoff and jitter
             delay = base_delay * (2 ** attempt) + random.uniform(0, 1)
-            
-            # Log the retry with more details
-            if "timeout" in str(e).lower() or "too long" in str(e).lower():
-                log_warning(f"Attempt {attempt + 1} failed due to timeout: {str(e)}. Retrying in {delay:.2f} seconds...")
-            else:
-                log_warning(f"Attempt {attempt + 1} failed: {str(e)}. Retrying in {delay:.2f} seconds...")
-            
+            log_warning(f"Attempt {attempt + 1} failed: {str(e)}. Retrying in {delay:.2f} seconds...")
             time.sleep(delay)
 
 # === Official function to get reCAPTCHA v2 token from 2captcha ===
 def get_2captcha_token(site_key, url, api_key):
     """حل reCAPTCHA V2 باستخدام 2captcha"""
     def _solve_captcha():
-        # Step 1: Submit captcha for solving
         req = requests.post('http://2captcha.com/in.php', data={
             'key': api_key,
             'method': 'userrecaptcha',
@@ -58,84 +47,38 @@ def get_2captcha_token(site_key, url, api_key):
             'pageurl': url,
             'json': 1
         })
-        
-        response_data = req.json()
-        if response_data.get('status') != 1:
-            raise Exception(f"2captcha submission error: {response_data.get('error_text', 'Unknown error')}")
-        
-        rid = response_data.get('request')
+        rid = req.json().get('request')
         if not rid:
             raise Exception(f"2captcha error: {req.text}")
-        
-        log_info(f"2captcha: Captcha submitted successfully. Request ID: {rid}")
-        
-        # Step 2: Wait for solution with intelligent polling
-        max_wait_time = 600  # 10 minutes maximum
-        check_interval = 10  # Check every 10 seconds initially
-        total_wait_time = 0
-        
-        while total_wait_time < max_wait_time:
-            time.sleep(check_interval)
-            total_wait_time += check_interval
-            
-            try:
-                res = requests.get(f'http://2captcha.com/res.php?key={api_key}&action=get&id={rid}&json=1')
-                result_data = res.json()
-                
-                if result_data.get('status') == 1:
-                    # Success! Captcha solved
-                    log_success(f"2captcha: Captcha solved successfully in {total_wait_time} seconds")
-                    return result_data['request']
-                
-                elif result_data.get('request') == 'CAPCHA_NOT_READY':
-                    # Still processing, continue waiting
-                    if total_wait_time % 60 == 0:  # Log every minute
-                        log_info(f"2captcha: Still waiting for solution... ({total_wait_time}s elapsed)")
-                    continue
-                
-                else:
-                    # Error occurred
-                    error_msg = result_data.get('request', 'Unknown error')
-                    raise Exception(f"2captcha solving error: {error_msg}")
-                    
-            except requests.RequestException as e:
-                log_warning(f"2captcha: Network error while checking solution: {e}")
-                continue
-        
-        # Timeout reached
-        raise Exception(f'2captcha: Captcha solving timeout after {max_wait_time} seconds')
+        for _ in range(24):
+            time.sleep(5)
+            res = requests.get(f'http://2captcha.com/res.php?key={api_key}&action=get&id={rid}&json=1')
+            if res.json().get('status') == 1:
+                return res.json()['request']
+        raise Exception('2captcha: Captcha solving took too long or failed.')
     
-    return retry_with_backoff(_solve_captcha, max_retries=2, base_delay=2)
+    return retry_with_backoff(_solve_captcha)
 
 def get_anticaptcha_token(site_key, url, api_key):
     """حل reCAPTCHA V2 باستخدام anticaptcha"""
     def _solve_captcha():
         from anticaptchaofficial.recaptchav2proxyless import recaptchaV2Proxyless
-        
         solver = recaptchaV2Proxyless()
         solver.set_key(api_key)
         solver.set_website_url(url)
         solver.set_website_key(site_key)
         solver.set_soft_id(0)
-        
-        log_info("Anticaptcha: Starting captcha solving...")
-        
         g_response = solver.solve_and_return_solution()
-        
         if g_response != 0:
-            log_success("Anticaptcha: Captcha solved successfully")
             return g_response
         else:
-            error_code = solver.error_code
-            error_msg = solver.error_code_description if hasattr(solver, 'error_code_description') else f"Error code: {error_code}"
-            raise Exception(f"Anticaptcha error: {error_msg}")
+            raise Exception(f"Anticaptcha error: {solver.error_code}")
     
-    return retry_with_backoff(_solve_captcha, max_retries=2, base_delay=2)
+    return retry_with_backoff(_solve_captcha)
 
 def get_capsolver_token(site_key, url, api_key):
     """حل reCAPTCHA V2 باستخدام capsolver"""
     def _solve_captcha():
-        # Step 1: Create task
         create_payload = {
             "clientKey": api_key,
             "task": {
@@ -144,63 +87,25 @@ def get_capsolver_token(site_key, url, api_key):
                 "websiteKey": site_key
             }
         }
-        
         r = requests.post("https://api.capsolver.com/createTask", json=create_payload)
-        response_data = r.json()
-        
-        if response_data.get("status") != "ready":
-            error_msg = response_data.get("errorDescription", "Unknown error")
-            raise Exception(f"Capsolver createTask error: {error_msg}")
-        
-        task_id = response_data.get("taskId")
+        task_id = r.json().get("taskId")
         if not task_id:
             raise Exception(f"Capsolver createTask error: {r.text}")
-        
-        log_info(f"Capsolver: Task created successfully. Task ID: {task_id}")
-        
-        # Step 2: Wait for solution with intelligent polling
-        max_wait_time = 600  # 10 minutes maximum
-        check_interval = 10  # Check every 10 seconds initially
-        total_wait_time = 0
-        
-        while total_wait_time < max_wait_time:
-            time.sleep(check_interval)
-            total_wait_time += check_interval
-            
-            try:
-                res = requests.post("https://api.capsolver.com/getTaskResult", json={
-                    "clientKey": api_key, 
-                    "taskId": task_id
-                })
-                data = res.json()
-                
-                if data.get("status") == "ready":
-                    # Success! Captcha solved
-                    log_success(f"Capsolver: Captcha solved successfully in {total_wait_time} seconds")
-                    return data["solution"]["gRecaptchaResponse"]
-                
-                elif data.get("status") == "processing":
-                    # Still processing, continue waiting
-                    if total_wait_time % 60 == 0:  # Log every minute
-                        log_info(f"Capsolver: Still waiting for solution... ({total_wait_time}s elapsed)")
-                    continue
-                
-                else:
-                    # Error occurred
-                    error_msg = data.get("errorDescription", "Unknown error")
-                    raise Exception(f"Capsolver solving error: {error_msg}")
-                    
-            except requests.RequestException as e:
-                log_warning(f"Capsolver: Network error while checking solution: {e}")
-                continue
-        
-        # Timeout reached
-        raise Exception(f"Capsolver: Captcha solving timeout after {max_wait_time} seconds")
+        for _ in range(30):
+            time.sleep(5)
+            res = requests.post("https://api.capsolver.com/getTaskResult", json={"clientKey": api_key, "taskId": task_id})
+            data = res.json()
+            if data.get("status") == "ready":
+                return data["solution"]["gRecaptchaResponse"]
+        raise Exception("Capsolver: Captcha solving took too long or failed.")
     
-    return retry_with_backoff(_solve_captcha, max_retries=2, base_delay=2)
+    return retry_with_backoff(_solve_captcha)
 
 def get_captcha_token(site_key, url, force_provider=None):
     """Unified function: chooses the first available provider from config.py, or uses forced provider if set."""
+    # Import stats manager
+    from modules.stats import stats_manager
+    
     cap = CONFIG['CAPTCHA']
     if force_provider:
         provider = force_provider.lower()
@@ -208,26 +113,63 @@ def get_captcha_token(site_key, url, force_provider=None):
             key = cap.get('API_KEY_2CAPTCHA')
             if not key:
                 raise Exception('2captcha API_KEY_2CAPTCHA is not set in config.py')
-            return get_2captcha_token(site_key, url, key)
+            try:
+                token = get_2captcha_token(site_key, url, key)
+                stats_manager.update_captcha_stats(True, provider)
+                return token
+            except Exception as e:
+                stats_manager.update_captcha_stats(False, provider)
+                raise
         elif provider == 'anticaptcha':
             key = cap.get('API_KEY_ANTICAPTCHA')
             if not key:
                 raise Exception('anticaptcha API_KEY_ANTICAPTCHA is not set in config.py')
-            return get_anticaptcha_token(site_key, url, key)
+            try:
+                token = get_anticaptcha_token(site_key, url, key)
+                stats_manager.update_captcha_stats(True, provider)
+                return token
+            except Exception as e:
+                stats_manager.update_captcha_stats(False, provider)
+                raise
         elif provider == 'capsolver':
             key = cap.get('API_KEY_CAPSOLVER')
             if not key:
                 raise Exception('capsolver API_KEY_CAPSOLVER is not set in config.py')
-            return get_capsolver_token(site_key, url, key)
+            try:
+                token = get_capsolver_token(site_key, url, key)
+                stats_manager.update_captcha_stats(True, provider)
+                return token
+            except Exception as e:
+                stats_manager.update_captcha_stats(False, provider)
+                raise
         else:
             raise Exception(f'Unknown forced CAPTCHA provider: {force_provider}')
+    
     # Auto-detect as before
     if cap.get('API_KEY_2CAPTCHA'):
-        return get_2captcha_token(site_key, url, cap['API_KEY_2CAPTCHA'])
+        try:
+            token = get_2captcha_token(site_key, url, cap['API_KEY_2CAPTCHA'])
+            stats_manager.update_captcha_stats(True, '2captcha')
+            return token
+        except Exception as e:
+            stats_manager.update_captcha_stats(False, '2captcha')
+            raise
     elif cap.get('API_KEY_ANTICAPTCHA'):
-        return get_anticaptcha_token(site_key, url, cap['API_KEY_ANTICAPTCHA'])
+        try:
+            token = get_anticaptcha_token(site_key, url, cap['API_KEY_ANTICAPTCHA'])
+            stats_manager.update_captcha_stats(True, 'anticaptcha')
+            return token
+        except Exception as e:
+            stats_manager.update_captcha_stats(False, 'anticaptcha')
+            raise
     elif cap.get('API_KEY_CAPSOLVER'):
-        return get_capsolver_token(site_key, url, cap['API_KEY_CAPSOLVER'])
+        try:
+            token = get_capsolver_token(site_key, url, cap['API_KEY_CAPSOLVER'])
+            stats_manager.update_captcha_stats(True, 'capsolver')
+            return token
+        except Exception as e:
+            stats_manager.update_captcha_stats(False, 'capsolver')
+            raise
     else:
         raise Exception('No API key set for any captcha provider in config.py')
 
@@ -305,6 +247,9 @@ class UnichAPI:
             log_success(f"OTP found: {otp_code}")
             return otp_code
         except Exception as e:
+            # Import stats manager and update OTP failure
+            from modules.stats import stats_manager
+            stats_manager.update_otp_stats(False)
             log_error("Error reading OTP from Gmail", str(e))
             raise
     
@@ -456,25 +401,41 @@ class UnichAPI:
 def process_account_api(email, password, retry_count=0, force_captcha_provider=None):
     """Process a single account using API, with optional forced captcha provider."""
     api = UnichAPI()
+    
+    # Import stats manager
+    from modules.stats import stats_manager
+    
     try:
         log_info(f"{'='*50}")
         log_info(f"Processing account: {email}")
         log_info(f"{'='*50}")
+        
         # Step 1: Request OTP
         if not api.request_otp(email, force_captcha_provider=force_captcha_provider):
             raise Exception("Failed to request OTP")
+        
         # Minimal wait for OTP delivery
         log_info("Waiting for OTP delivery...")
         time.sleep(5)  # Only short, essential wait
+        
         # Step 2: Read OTP from Gmail
         otp_code = api.read_otp_from_gmail(email)
+        stats_manager.update_otp_stats(True)  # OTP found successfully
+        
         # Step 3: Verify OTP
         otp_token = api.verify_otp(email, otp_code, force_captcha_provider=force_captcha_provider)
+        
         # Step 4: Complete registration
         access_token = api.sign_up(email, password, otp_token, force_captcha_provider=force_captcha_provider)
+        
         # Step 5: Apply referral code
         api.apply_referral(access_token, CONFIG['REFERRAL_CODE'])
+        
         log_info("All steps completed, preparing to save account info...")
+        
+        # Update statistics - SUCCESS
+        stats_manager.update_registration_stats(True, force_captcha_provider)
+        
         account_info = {
             "email": email,
             "password": password,
@@ -488,6 +449,10 @@ def process_account_api(email, password, retry_count=0, force_captcha_provider=N
     except Exception as e:
         error_msg = f"Error processing account {email}: {str(e)}"
         log_error(error_msg)
+        
+        # Update statistics - FAILURE
+        stats_manager.update_registration_stats(False, force_captcha_provider)
+        stats_manager.add_error(str(e), email)
         
         # Save error to errors.txt file
         try:
